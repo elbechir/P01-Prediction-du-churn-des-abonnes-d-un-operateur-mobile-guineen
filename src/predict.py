@@ -148,3 +148,4 @@ if __name__ == '__main__':
     print("\n=== Résultat de prédiction ===")
     for k, v in result.items():
         print(f"  {k:<20} : {v}")
+# Seuil de decision : 0.5 - ajustable selon contrainte metier
