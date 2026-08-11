@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 st.set_page_config(
     page_title="Churn Predictor — TélécomGuinée",
     page_icon="📱",
-    layout="wide",
+    layout="wide",  # mise en page optimisee,
     initial_sidebar_state="expanded"
 )
 
