@@ -7,7 +7,7 @@
 
 ## Contexte et problématique métier
 
-TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd environ **18% de ses abonnés par trimestre**, soit 720 000 clients sur 4 millions. Le coût d'acquisition d'un nouveau client est **5 fois supérieur** au coût de rétention d'un client existant.
+TélécomGuinée SA perd environ **18% de ses abonnés par trimestre**, soit 720 000 clients sur 4 millions. Le coût d'acquisition d'un nouveau client est **5 fois supérieur** au coût de rétention d'un client existant.
 
 **Objectif** : construire un modèle de classification binaire capable d'identifier les clients susceptibles de résilier dans les **30 prochains jours**, afin de déclencher automatiquement des offres de rétention personnalisées.
 
@@ -24,7 +24,7 @@ TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd env
 | Lignes | 15 000 |
 | Colonnes | 23 |
 | Variable cible | `resiliation` (Oui / Non) — déséquilibre ~24% Oui |
-| Source | Données synthétiques générées avec numpy/random (méthode validée en cours) |
+| Source | Données synthétiques générées avec numpy/random |
 
 ### Dictionnaire des variables
 
@@ -35,7 +35,7 @@ TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd env
 | sexe | str | Homme / Femme |
 | age | int | Âge du client (18–70 ans) |
 | revenu_estime_gnf | int | Revenu estimé en Francs Guinéens |
-| anciennete_mois | int | Durée d'abonnement en mois (1–96) ⭐ |
+| anciennete_mois | int | Durée d'abonnement en mois (1–96) |
 | type_abonnement | str | Prépayé / Postpayé |
 | forfait_international | str | Oui / Non |
 | messagerie_vocale | str | Oui / Non |
@@ -45,16 +45,15 @@ TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd env
 | minutes_nuit | int | Minutes d'appels la nuit |
 | minutes_internationales | int | Minutes d'appels internationaux |
 | donnees_mo | int | Consommation data en Mo |
-| ratio_data_voix | float | donnees_mo / minutes_totales ⭐ |
+| ratio_data_voix | float | donnees_mo / minutes_totales |
 | nombre_sms | int | Nombre de SMS envoyés |
 | appels_service_client | int | Appels au service client |
 | pannes_signalees_30j | int | Pannes signalées sur 30 jours |
-| nombre_reclamations | int | Total réclamations (pannes + appels SAV) ⭐ |
+| nombre_reclamations | int | Total réclamations (pannes + appels SAV) |
 | retard_paiement_jours | int | Jours de retard de paiement |
 | retour_client | str | Commentaire libre |
 | resiliation | str | **Variable cible** : Oui / Non |
 
-⭐ Variables créées pour ce projet
 
 ## Méthodologie (CRISP-DM)
 
@@ -71,21 +70,21 @@ TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd env
 
 | Modèle | Accuracy | Précision | Rappel | F1-Score | ROC-AUC |
 |---|---|---|---|---|---|
-| **Régression Logistique** ⭐ | 0.593 | 0.312 | **0.577** | **0.405** | 0.637 |
+| **Régression Logistique** | 0.593 | 0.312 | **0.577** | **0.405** | 0.637 |
 | Random Forest | 0.667 | 0.332 | 0.385 | 0.357 | 0.630 |
 | XGBoost | 0.675 | 0.339 | 0.374 | 0.356 | 0.630 |
 | XGBoost + SMOTE | 0.760 | 0.500 | 0.124 | 0.198 | 0.636 |
 
-> ⭐ **Meilleur modèle : Régression Logistique** (F1=0.405, Rappel=0.577)
+> **Meilleur modèle : Régression Logistique** (F1=0.405, Rappel=0.577)
 > Le Rappel est priorisé car un faux négatif (churner manqué) coûte 250 000 GNF vs 50 000 GNF pour un faux positif.
 
 ## Variables les plus explicatives
 
-1. `anciennete_mois` — Les clients récents (< 6 mois) churne 3× plus
-2. `pannes_signalees_30j` — Chaque panne augmente le risque de +12%
-3. `retard_paiement_jours` — Signal fort d'insatisfaction globale
-4. `appels_service_client` — Proxy de l'insatisfaction
-5. `nombre_reclamations` — Variable créée, très prédictive (confirmée)
+1. `anciennete_mois`  Les clients récents (< 6 mois) churne 3× plus
+2. `pannes_signalees_30j` Chaque panne augmente le risque de +12%
+3. `retard_paiement_jours` Signal fort d'insatisfaction globale
+4. `appels_service_client` Proxy de l'insatisfaction
+5. `nombre_reclamations` — très prédictive (confirmée)
 
 ## Limites et pistes d'amélioration
 
@@ -97,7 +96,7 @@ TélécomGuinée SA (opérateur fictif basé sur le cas Orange Guinée) perd env
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/VOTRE_USERNAME/p01-churn-telecom-guinee.git
+git clone https://github.com/Votre_username/P01-Prediction-du-churn-des-abonnes-d-un-operateur-mobile-guineen.git
 cd p01-churn-telecom-guinee
 
 # 2. Créer un environnement virtuel
@@ -123,6 +122,6 @@ streamlit run app/app.py
 ## Auteur
 
 **Mamadou Bachir Diallo**
-Master 1 Systèmes d'Information — Université Kofi Annan de Guinée
+Master 1 Systèmes d'Information  Université Kofi Annan de Guinée
 Année académique 2025-2026
-Enseignant : Youssouf Vessou Traoré
+
