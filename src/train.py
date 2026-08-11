@@ -160,3 +160,4 @@ def train_and_evaluate():
 
 if __name__ == '__main__':
     train_and_evaluate()
+# Meilleur modele : Regression Logistique - F1=0.405 - Rappel=0.577
