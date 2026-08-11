@@ -135,3 +135,4 @@ def run_pipeline(apply_smote_flag=True):
 
 if __name__ == '__main__':
     run_pipeline()
+# Pipeline validé - version 1.0
