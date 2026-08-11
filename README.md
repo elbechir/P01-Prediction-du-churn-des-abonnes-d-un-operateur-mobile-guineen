@@ -124,4 +124,5 @@ streamlit run app/app.py
 **Mamadou Bachir Diallo**
 Master 1 Systèmes d'Information  Université Kofi Annan de Guinée
 Année académique 2025-2026
-
+## Journal des modifications
+- Version 1.0 : initialisation du projet
