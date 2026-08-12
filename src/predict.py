@@ -149,3 +149,4 @@ if __name__ == '__main__':
     for k, v in result.items():
         print(f"  {k:<20} : {v}")
 # Seuil de decision : 0.5 - ajustable selon contrainte metier
+# Segments : Faible < 40% | Modere 40-60% | Eleve 60-80% | Tres eleve > 80%
