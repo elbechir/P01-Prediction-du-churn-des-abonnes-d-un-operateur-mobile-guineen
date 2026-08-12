@@ -347,3 +347,4 @@ st.markdown(
     "Master 1 SI — Université Kofi Annan de Guinée · "
     "Mamadou Bachir Diallo</p>",
     unsafe_allow_html=True)
+# Application deployee localement - Streamlit 1.35
