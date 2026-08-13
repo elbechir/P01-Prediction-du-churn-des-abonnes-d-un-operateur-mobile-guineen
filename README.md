@@ -126,3 +126,4 @@ Master 1 Systèmes d'Information  Université Kofi Annan de Guinée
 Année académique 2025-2026
 ## Journal des modifications
 - Version 1.0 : initialisation du projet
+- Version 1.1 : finalisation du projet et preparation
