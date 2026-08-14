@@ -26,59 +26,54 @@ def load_model_and_scaler():
 
 
 def preprocess_single(client_dict, scaler):
-    """
-    Transforme un dictionnaire client (saisie manuelle) en DataFrame
-    prêt pour la prédiction.
-
-    Paramètres attendus dans client_dict :
-        age, anciennete_mois, revenu_estime_gnf, recharge_mensuelle_moy_gnf,
-        minutes_jour, minutes_nuit, minutes_internationales, donnees_mo,
-        nombre_sms, appels_service_client, pannes_signalees_30j,
-        nombre_reclamations, retard_paiement_jours,
-        sexe (Homme/Femme), type_abonnement (Prépayé/Postpayé),
-        forfait_international (Oui/Non), messagerie_vocale (Oui/Non),
-        region (str), moyen_paiement (str)
-    """
     d = client_dict.copy()
 
     # Calcul du ratio data/voix
-    total_min = max(1, d['minutes_jour'] + d['minutes_nuit']
-                    + d['minutes_internationales'])
+    total_min = max(1, d['minutes_jour'] + d['minutes_nuit'] + d['minutes_internationales'])
     d['ratio_data_voix'] = round(d['donnees_mo'] / total_min, 2)
 
     # Encodage binaire
     d['sexe']                  = 1 if d['sexe'] == 'Homme' else 0
-    d['type_abonnement']       = 1 if d['type_abonnement'] == 'Prépayé' else 0
+    d['type_abonnement']       = 0 if d['type_abonnement'] == 'Prépayé' else 1
     d['forfait_international'] = 1 if d['forfait_international'] == 'Oui' else 0
     d['messagerie_vocale']     = 1 if d['messagerie_vocale'] == 'Oui' else 0
 
     # One-Hot région
-    regions = ['Boké', 'Conakry', 'Faranah', 'Kankan', 'Kindia', 'Labé',
-               'Mamou', "N'Zérékoré"]
-    for r in regions[1:]:   # drop_first=True → Boké est la référence
+    regions = ['Conakry', 'Faranah', 'Kankan', 'Kindia', 'Labé', 'Mamou', "N'Zérékoré"]
+    for r in regions:
         d[f'region_{r}'] = 1 if d['region'] == r else 0
     del d['region']
 
     # One-Hot moyen de paiement
-    moyens = ['Carte bancaire', 'Espèces', 'Orange Money', 'Virement bancaire']
-    for m in moyens[1:]:    # drop_first=True → Carte bancaire est référence
+    moyens = ['Espèces', 'Orange Money', 'Virement bancaire']
+    for m in moyens:
         d[f'moyen_paiement_{m}'] = 1 if d['moyen_paiement'] == m else 0
     del d['moyen_paiement']
 
-    df = pd.DataFrame([d])
+    # Ordre exact des colonnes du modèle
+    cols = ['sexe', 'age', 'revenu_estime_gnf', 'anciennete_mois',
+            'type_abonnement', 'forfait_international', 'messagerie_vocale',
+            'recharge_mensuelle_moy_gnf', 'minutes_jour', 'minutes_nuit',
+            'minutes_internationales', 'donnees_mo', 'ratio_data_voix',
+            'nombre_sms', 'appels_service_client', 'pannes_signalees_30j',
+            'nombre_reclamations', 'retard_paiement_jours',
+            'region_Conakry', 'region_Faranah', 'region_Kankan',
+            'region_Kindia', 'region_Labé', 'region_Mamou',
+            "region_N'Zérékoré", 'moyen_paiement_Espèces',
+            'moyen_paiement_Orange Money', 'moyen_paiement_Virement bancaire']
 
-    # Normalisation des colonnes numériques
+    df = pd.DataFrame([{c: d.get(c, 0) for c in cols}])
+
+    # Normalisation
     numeric_cols = ['age', 'revenu_estime_gnf', 'anciennete_mois',
                     'recharge_mensuelle_moy_gnf', 'minutes_jour',
                     'minutes_nuit', 'minutes_internationales',
                     'donnees_mo', 'ratio_data_voix', 'nombre_sms',
                     'appels_service_client', 'pannes_signalees_30j',
                     'nombre_reclamations', 'retard_paiement_jours']
-    existing_num = [c for c in numeric_cols if c in df.columns]
-    df[existing_num] = scaler.transform(df[existing_num])
+    df[numeric_cols] = scaler.transform(df[numeric_cols])
 
     return df
-
 
 def predict_churn(client_dict):
     """
@@ -92,8 +87,7 @@ def predict_churn(client_dict):
     df = preprocess_single(client_dict, scaler)
 
     # Aligner les colonnes avec le modèle
-    model_features = model.get_booster().feature_names if hasattr(model, 'get_booster') \
-                     else list(df.columns)
+    model_features = list(df.columns)
     for col in model_features:
         if col not in df.columns:
             df[col] = 0
