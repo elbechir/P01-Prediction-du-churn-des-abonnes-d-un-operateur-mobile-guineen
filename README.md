@@ -117,7 +117,7 @@ streamlit run app/app.py
 
 ## Lien vers la vidéo YouTube
 
-[Fouille de Données M1 - Prédiction Churn Télécom Guinée - Mamadou Bachir Diallo](https://youtube.com/VOTRE_LIEN)
+[Fouille de Données M1 - Prédiction Churn Télécom Guinée - Mamadou Bachir Diallo](https://youtu.be/7ljUc7rAUTo)
 
 ## Auteur
 
